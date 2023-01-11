@@ -66,5 +66,16 @@ app.delete('/jokes/:id', async (req, res, next) => {
   }
 })
 
+app.put('/jokes/:id', async (req, res, next) => {
+  try {
+    const entry = await Joke.findByPk(req.params.id)
+    await entry.update({tags: req.body.tags, joke: req.body.joke})
+    res.status(200).send("Successfully update joke in the database.")
+  } catch (error){
+    console.error(error)
+    next(error)
+  }
+})
+
 // we export the app, not listening in here, so that we can run tests
 module.exports = app;
